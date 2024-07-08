@@ -22,7 +22,7 @@ const (
 
 func main() {
 	log.SetLevel(log.InfoLevel)
-	addr := flag.String("addr", "0.0.0.0:19876", "listen address")
+	addr := flag.String("addr", "0.0.0.0:9966", "listen address")
 	flag.Parse()
 
 	// a config watcher
@@ -30,6 +30,8 @@ func main() {
 	viper.SetConfigType("yaml")
 	viper.AddConfigPath("./configs")
 	viper.AddConfigPath(".")
+        viper.SetEnvPrefix("khttp")
+        viper.AutomaticEnv()
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(fmt.Errorf("fatal error config file: %w", err))

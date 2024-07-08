@@ -7,10 +7,10 @@ import (
 )
 
 
-func ServeReceiver(addr *string, clusterName string, podIp string, vmIp string, HostIp string) {
+func ServeReceiver(addr *string, testName string, region string, zone string, clusterName string, node string, ip string) {
 
-    json := fmt.Sprintf(`{"clusterName": "%s", "podIp": "%s", "vmIp": "%s", "hostIp": "%s"}`, clusterName, podIp, vmIp, HostIp)
-    http.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
+    json := fmt.Sprintf(`{"testName": "%s", "clusterName": "%s", "node": "%s", "ip": "%s", "zone": "%s", "region": "%s"}`, testName, clusterName, node, ip, zone, region)
+    http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
         w.WriteHeader(http.StatusOK)
         fmt.Fprint(w, json)
     })

@@ -32,6 +32,7 @@ func main() {
 	viper.AddConfigPath(".")
         viper.SetEnvPrefix("khttp")
         viper.AutomaticEnv()
+        viper.SetDefault("testName", "test")
 	err := viper.ReadInConfig()
 	if err != nil {
 		panic(fmt.Errorf("fatal error config file: %w", err))
@@ -40,11 +41,15 @@ func main() {
         log.Infof("Starting [version: %s] in mode: %s on %s", version, viper.GetString("mode"), *addr)
 
         if mode == RECEIVER {
-            clusterName := viper.GetString("clusterName")
-            podIp := viper.GetString("podIp")
-            vmIp := viper.GetString("vmIp")
-            hostIp := viper.GetString("hostIp")
-            receiver.ServeReceiver(addr, clusterName, podIp, vmIp, hostIp)
+            receiver.ServeReceiver(
+                addr,
+                viper.GetString("testName"),
+                viper.GetString("region"),
+                viper.GetString("zone"),
+                viper.GetString("clusterName"),
+                viper.GetString("node"),
+                viper.GetString("ip"),
+            )
         } else {
             generator.StartGenerator()
         }

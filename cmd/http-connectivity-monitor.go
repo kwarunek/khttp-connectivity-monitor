@@ -3,9 +3,6 @@ package main
 import (
 	"flag"
 	"fmt"
-	"net/http"
-	"os"
-	"os/signal"
 
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
@@ -47,6 +44,6 @@ func main() {
             hostIp := viper.GetString("hostIp")
             receiver.ServeReceiver(addr, clusterName, podIp, vmIp, hostIp)
         } else {
-            generator.StartGenerator(addr)
+            generator.StartGenerator()
         }
 }

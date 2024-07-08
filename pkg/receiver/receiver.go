@@ -1,18 +1,16 @@
 package receiver
 
 import (
-	"flag"
 	"fmt"
 	"net/http"
-    	viper "github.com/spf13/viper"
 	log "github.com/sirupsen/logrus"
 )
 
 
-func ServeReceiver(addr String, clusterName String, podIp string, vmIp String, HostIp String) {
+func ServeReceiver(addr *string, clusterName string, podIp string, vmIp string, HostIp string) {
 
+    json := fmt.Sprintf(`{"clusterName": "%s", "podIp": "%s", "vmIp": "%s", "hostIp": "%s"}`, clusterName, podIp, vmIp, HostIp)
     http.HandleFunc("/test", func(w http.ResponseWriter, r *http.Request) {
-        json = fmt.Sprintf(`{"clusterName": "%s", "podIp": "%s", "vmIp": "%s", "hostIp": "%s"}`, clusterName, podIp, vmIp, HostIp)
         w.WriteHeader(http.StatusOK)
         fmt.Fprint(w, json)
     })

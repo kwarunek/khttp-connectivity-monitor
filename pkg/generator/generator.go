@@ -41,14 +41,6 @@ func (g *Generator) probe() {
 	} else {
 		fmt.Println(resp.Status)
 	}
-	fmt.Println(total)
-}
-
-func StartGenerator() {
-	g := &Generator{
-		receiverAddr: "http://localhost:9966",
-	}
-	fmt.Printf("Starting generator %v", g)
 }
 
 func NewGenerator(receiverAddr string, interval time.Duration) *Generator {
@@ -56,12 +48,12 @@ func NewGenerator(receiverAddr string, interval time.Duration) *Generator {
 		receiverAddr: receiverAddr,
 		ticker:       time.NewTicker(interval),
 		requestsTotal: promauto.NewCounter(prometheus.CounterOpts{
-			Name: "generator_requests_total",
+			Name: "khcm_generator_requests_total",
 			Help: "The total number of requests sent by the generator",
 		}),
 		requestDuration: promauto.NewHistogram(prometheus.HistogramOpts{
-			Name: "generator_request_duration_seconds",
-			Help: "The total number of requests sent by the generator",
+			Name: "khcm_generator_request_duration_seconds",
+			Help: "",
 		}),
 	}
 }

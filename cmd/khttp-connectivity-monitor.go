@@ -43,7 +43,6 @@ func main() {
 	if mode == RECEIVER {
 		receiver.SetupReceiver(
 			addr,
-			viper.GetString("testName"),
 			viper.GetString("region"),
 			viper.GetString("zone"),
 			viper.GetString("clusterName"),
@@ -56,12 +55,17 @@ func main() {
 			log.Fatalf("Failed to parse interval: %v", err)
 		}
 		g := generator.NewGenerator(
-			viper.GetString("generatorTargetAddr"),
+			viper.GetString("probedAddr"),
+			viper.GetString("testName"),
+			viper.GetString("clusterName"),
+			viper.GetString("region"),
+			viper.GetString("zone"),
+			viper.GetString("node"),
 			interval,
 		)
 		g.Start()
 	}
-	log.Infof("Starting [version: %s] in mode: %s on %s", version, viper.GetString("mode"), addr)
+	log.Infof("Starting [version: %s] in mode: %s on %s", version, mode, addr)
 	http.Handle("/metrics", promhttp.Handler())
 	log.Fatal(http.ListenAndServe(addr, nil))
 }

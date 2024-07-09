@@ -74,21 +74,23 @@ func (g *Generator) probe() {
 }
 
 func NewGenerator(receiverAddr string, testName string, clusterName string, region string, zone string, node string, interval time.Duration) *Generator {
+	buckets := []float64{0.0005, 0.001, 0.005, 0.010, 0.020, 0.050, .1, .2, .75, 1, 2}
 	return &Generator{
 		receiverAddr: receiverAddr,
 		ticker:       time.NewTicker(interval),
 		testName:     testName,
-                clusterName:  clusterName,
-        region:       region,
-        zone:         zone,
-        node:         node,
+		clusterName:  clusterName,
+		region:       region,
+		zone:         zone,
+		node:         node,
 		requestsTotal: promauto.NewCounter(prometheus.CounterOpts{
 			Name: "khcm_generator_requests_total",
 			Help: "The total number of requests sent by the generator",
 		}),
 		requestDuration: promauto.NewHistogramVec(prometheus.HistogramOpts{
-			Name: "khcm_generator_request_duration_seconds",
-			Help: "",
+			Name:    "khcm_generator_request_duration_seconds",
+			Help:    "",
+			Buckets: buckets,
 		},
 			[]string{"test", "cluster", "g_region", "g_zone", "g_node", "r_region", "r_zone", "r_node", "status"},
 		),

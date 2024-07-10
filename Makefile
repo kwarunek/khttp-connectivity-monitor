@@ -34,3 +34,6 @@ version:  # Print a sniffed version
 	@echo ${VERSION}
 
 release: clean fmt test-functional image  # Creates clean, production image with a tag version after completed tests 
+
+build:
+	sudo docker build --network host -t khttp-connectivity-monitor:${VERSION} .

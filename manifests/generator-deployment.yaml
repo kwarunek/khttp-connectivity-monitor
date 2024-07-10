@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: khcm-generator-test-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: khttp-connectivity-monitor
+      mode: generator
+      test: test-1
+  template:
+    metadata:
+      labels:
+        app: khttp-connectivity-monitor
+        mode: generator
+        test: test-1
+    annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/path: '/metrics'
+      prometheus.io/port: '9999'
+    spec:
+      containers:
+      - name: khttp-connectivity-monitor
+        image: kwarunek/khttp-connectivity-monitor
+        ports:
+        - containerPort: 9999
+        env:
+        - name: KHTTP_PORT
+          value: "9999"
+        - name: KHTTP_HOST
+          value: "0.0.0.0"
+        - name: KHTTP_MODE
+          value: generator
+        - name: KHTTP_CLUSTERNAME
+          value: A
+        - name: KHTTP_TESTNAME
+          value: test-1
+        - name: KHTTP_PROBEDADDR
+          value: http://khcm-receiver-test-1
+        - name: NODE_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP

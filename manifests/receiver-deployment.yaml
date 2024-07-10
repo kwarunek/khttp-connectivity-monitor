@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: khcm-receiver-test-1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: khttp-connectivity-monitor
+      mode: receiver
+      test: test-1
+  template:
+    metadata:
+      labels:
+        app: khttp-connectivity-monitor
+        mode: receiver
+        test: test-1
+    spec:
+      containers:
+      - name: khttp-connectivity-monitor
+        image: kwarunek/khttp-connectivity-monitor
+        ports:
+        - containerPort: 9999
+        env:
+        - name: KHTTP_PORT
+          value: "9999"
+        - name: KHTTP_HOST
+          value: "0.0.0.0"
+        - name: KHTTP_MODE
+          value: receiver
+        - name: KHTTP_CLUSTERNAME
+          value: A
+        - name: NODE_IP
+          valueFrom:
+            fieldRef:
+              fieldPath: status.hostIP

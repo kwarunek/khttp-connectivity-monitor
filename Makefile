@@ -35,5 +35,5 @@ version:  # Print a sniffed version
 
 release: clean fmt test-functional image  # Creates clean, production image with a tag version after completed tests 
 
-build:
-	sudo docker build --network host -t khttp-connectivity-monitor:${VERSION} .
+image:
+	sudo docker build --network host -t kwarunek/khttp-connectivity-monitor:${VERSION} .

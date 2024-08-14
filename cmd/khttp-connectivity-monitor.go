@@ -59,7 +59,7 @@ func main() {
 			viper.GetString("zone"),
 			viper.GetString("clusterName"),
 			viper.GetString("node"),
-			vipre.GetString("response_size"),
+			viper.GetInt64("response_size"),
 		)
 	} else {
 		interval, err := time.ParseDuration(viper.GetString("generatorInterval"))

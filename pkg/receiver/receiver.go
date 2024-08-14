@@ -4,11 +4,14 @@ import (
 	"fmt"
 	"net/http"
 	"github.com/tarfik/khttp-connectivity-monitor/pkg/utils"
+	"strings"
 )
 
 func SetupReceiver(addr string, region string, zone string, clusterName string, node string, reponse_size int64) {
 
-	json := fmt.Sprintf(`{"clusterName": "%s", "node": "%s", "zone": "%s", "region": "%s", "response": "%s"}`, clusterName, node, zone, region, bytes.NewBuffer(RandStringBytes(reponse_size))
+	json := fmt.Sprintf(`{"clusterName": "%s", "node": "%s", "zone": "%s", "region": "%s", "response": "RESPONSE"}`, clusterName, node, zone, region)
+    rand_bytes_cnt := reponse_size - int64(len(json)) + int64(len("RESPONSE"))
+	strings.Replace(json, "RESPONSE", string(utils.RandStringBytes(rand_bytes_cnt)), -1)
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusOK)
 		fmt.Fprint(w, json)

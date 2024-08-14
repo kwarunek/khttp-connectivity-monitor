@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-
 	"bytes"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promauto"
@@ -13,6 +12,7 @@ import (
 	"net/http"
 	maasClient "stash.grupa.onet/go/go-maas.git/client"
 	"time"
+	"github.com/tarfik/khttp-connectivity-monitor/pkg/utils"
 )
 
 type ReceiverResponse struct {
@@ -45,22 +45,16 @@ func (g *Generator) Start() {
 	}()
 }
 
-const letterBytes = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
-
-func RandStringBytes(n int64) []byte {
-    b := make([]byte, n)
-    for i := range b {
-        b[i] = letterBytes[rand.Intn(len(letterBytes))]
-    }
-    return b
-}
-
-
 func (g *Generator) probe() {
 	var r ReceiverResponse
 
 	start := time.Now()
-	resp, err := http.Post(g.receiverAddr, "application/octet-stream", bytes.NewBuffer(RandStringBytes(g.size)))
+	client := &http.Client{}
+	req, err := http.NewRequest("POST", g.receiverAddr, bytes.NewBuffer(RandStringBytes(g.size))
+	req.Header.Set("Content-Type", "application/octet-stream")
+    req.Header.Add("X-Khttp-Response-Size", strconv.FormatInt(g.response_size, 10))
+    resp, err := client.Do(req)
+
 	total := time.Since(start)
 	maas_path := ""
 
@@ -106,7 +100,7 @@ func (g *Generator) probe() {
 	g.requestDuration.With(labels).Observe(total.Seconds())
 }
 
-func NewGenerator(receiverAddr string, testName string, clusterName string, region string, zone string, node string, interval time.Duration, size int64, maas *maasClient.MaasClient) *Generator {
+func NewGenerator(receiverAddr string, testName string, clusterName string, region string, zone string, node string, interval time.Duration, size int64, response_size int64, maas *maasClient.MaasClient) *Generator {
 	buckets := []float64{0.0005, 0.001, 0.005, 0.010, 0.020, 0.050, .1, .2, .75, 1, 2}
 	return &Generator{
 		receiverAddr: receiverAddr,

@@ -10,6 +10,8 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
+	maasClient "stash.grupa.onet/go/go-maas.git/client"
+	maasConfig "stash.grupa.onet/go/go-maas.git/config"
 )
 
 var (
@@ -30,6 +32,7 @@ func main() {
 	viper.AddConfigPath(".")
 	viper.SetEnvPrefix("khttp")
 	viper.SetDefault("port", 9966)
+	viper.SetDefault("size", 1500)
 	viper.SetDefault("host", "localhost")
 	viper.AutomaticEnv()
 	viper.SetDefault("testName", "test")
@@ -40,6 +43,14 @@ func main() {
 	addr := fmt.Sprintf("%s:%d", viper.GetString("host"), viper.GetInt("port"))
 	mode := viper.GetString("mode")
 
+	conf := maasConfig.MaasConfig{
+		BasePath: "Applications.monitoring.khttp",
+		Interval: 30,
+		Timeout:  10,
+	}
+	maas := maasClient.NewMaasClient(&conf)
+	maas.Start()
+
 	if mode == RECEIVER {
 		receiver.SetupReceiver(
 			addr,
@@ -47,7 +58,6 @@ func main() {
 			viper.GetString("zone"),
 			viper.GetString("clusterName"),
 			viper.GetString("node"),
-			viper.GetString("ip"),
 		)
 	} else {
 		interval, err := time.ParseDuration(viper.GetString("generatorInterval"))
@@ -62,6 +72,8 @@ func main() {
 			viper.GetString("zone"),
 			viper.GetString("node"),
 			interval,
+			viper.GetInt64("size"),
+			maas,
 		)
 		g.Start()
 	}

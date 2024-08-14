@@ -1,7 +1,7 @@
 OUT := build/khttp-connectivity-monitor
 PKG := github.com/kwarunek/khttp-connectivity-monitor
 SRC_FILES := $(wildcard ./cmd/*.go) $(wildcard ./fmt/**/*.go)
-VERSION := $(shell  grep '^\#\# ' CHANGELOG.md | head -n1 | grep -o '\[.*\]' |tr -d '[]')-$(shell uname -i)
+VERSION := $(shell  grep '^\#\# ' CHANGELOG.md | head -n1 | grep -o '\[.*\]' |tr -d '[]')
 
 
 .PHONY: help fmt build build-dep image publish deps version release

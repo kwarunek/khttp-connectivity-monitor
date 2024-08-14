@@ -2,8 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: khcm-receiver-test-1
+  namespace: monitoring
 spec:
-  replicas: 1
+  replicas: 250
   selector:
     matchLabels:
       app: khttp-connectivity-monitor
@@ -18,10 +19,12 @@ spec:
     spec:
       containers:
       - name: khttp-connectivity-monitor
-        image: kwarunek/khttp-connectivity-monitor
+        image: "kwarunek/khttp-connectivity-monitor:0.0.2-dev1"
         ports:
         - containerPort: 9999
         env:
+        - name: PAAS_MONITORING_KEY
+          value: m-dlpaonpr-538318bb-mon-c2a
         - name: KHTTP_PORT
           value: "9999"
         - name: KHTTP_HOST
@@ -29,8 +32,8 @@ spec:
         - name: KHTTP_MODE
           value: receiver
         - name: KHTTP_CLUSTERNAME
-          value: A
-        - name: NODE_IP
+          value: c2p
+        - name: KHTTP_NODE
           valueFrom:
             fieldRef:
               fieldPath: status.hostIP

@@ -10,6 +10,10 @@ Versioning  X.Y.Z:
  Z - bugfixes, small improvments
 
 
+## [0.0.2-dev1] - 2024-07-11
+### Added
+- go-maas
+
 ## [0.0.1] - 2024-07-09
 ### Added
 - initialize

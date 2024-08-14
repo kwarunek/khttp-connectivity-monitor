@@ -5,7 +5,7 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/tarfik/khttp-connectivity-monitor/pkg/utils"
+	"github.com/kwarunek/khttp-connectivity-monitor/pkg/utils"
 )
 
 func SetupReceiver(addr string, region string, zone string, clusterName string, node string, reponse_size int64) {

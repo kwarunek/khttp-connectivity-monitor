@@ -11,7 +11,7 @@ import (
 	"net/http"
 	maasClient "stash.grupa.onet/go/go-maas.git/client"
 	"time"
-	"github.com/tarfik/khttp-connectivity-monitor/pkg/utils"
+	"github.com/kwarunek/khttp-connectivity-monitor/pkg/utils"
 )
 
 type ReceiverResponse struct {

@@ -5,8 +5,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/kwarunek/khttp-connectivity-monitor/pkg/generator"
-	"github.com/kwarunek/khttp-connectivity-monitor/pkg/receiver"
+	"github.com/tarfik/khttp-connectivity-monitor/pkg/generator"
+	"github.com/tarfik/khttp-connectivity-monitor/pkg/receiver"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"

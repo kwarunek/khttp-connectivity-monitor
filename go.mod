@@ -1,4 +1,4 @@
-module github.com/kwarunek/khttp-connectivity-monitor
+module github.com/tarfik/khttp-connectivity-monitor
 
 go 1.22.5
 

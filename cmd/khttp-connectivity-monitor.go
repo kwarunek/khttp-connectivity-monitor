@@ -33,6 +33,7 @@ func main() {
 	viper.SetEnvPrefix("khttp")
 	viper.SetDefault("port", 9966)
 	viper.SetDefault("size", 1500)
+	viper.SetDefault("response_size", 1500)
 	viper.SetDefault("host", "localhost")
 	viper.AutomaticEnv()
 	viper.SetDefault("testName", "test")
@@ -58,6 +59,7 @@ func main() {
 			viper.GetString("zone"),
 			viper.GetString("clusterName"),
 			viper.GetString("node"),
+			viper.GetInt64("response_size"),
 		)
 	} else {
 		interval, err := time.ParseDuration(viper.GetString("generatorInterval"))

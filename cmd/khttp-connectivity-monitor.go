@@ -76,6 +76,7 @@ func main() {
 			interval,
 			viper.GetInt64("size"),
 			maas,
+			viper.GetString("override_host"),
 		)
 		g.Start()
 	}

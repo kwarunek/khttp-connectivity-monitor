@@ -28,7 +28,6 @@ type Generator struct {
 	zone            string
 	node            string
 	size            int64
-	response_size   int64
 	requestsTotal   prometheus.Counter
 	requestDuration *prometheus.HistogramVec
 	maas            *maasClient.MaasClient
@@ -54,7 +53,6 @@ func (g *Generator) probe() {
 	req, err := http.NewRequest("POST", g.receiverAddr, bytes.NewBuffer(utils.RandStringBytes(g.size)))
 	req.Header.Set("Content-Type", "application/octet-stream")
 	req.Header.Set("Connection", "close")
-	req.Header.Add("X-Khttp-Response-Size", strconv.FormatInt(g.response_size, 10))
 	req.Close = true
 	resp, err := client.Do(req)
 

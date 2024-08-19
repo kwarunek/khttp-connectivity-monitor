@@ -9,18 +9,19 @@ Versioning  X.Y.Z:
  Y - non breaking features, notable bugfixes
  Z - bugfixes, small improvments
 
-## [0.0.2-dev2] - 2024-08-19
+## [0.1.0-dev] - 2024-08-19
 ### Added
 - connection close
-
-## [0.0.2-dev1] - 2024-07-11
-### Added
-- go-maas
+- specify request size
 
 ## [0.1.0] - 2024-08-19
 ### Added
 - close connection
 - specify request size
+
+## [0.0.2-dev1] - 2024-07-11
+### Added
+- go-maas
 
 ## [0.0.1] - 2024-07-09
 ### Added

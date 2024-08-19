@@ -52,7 +52,6 @@ func (g *Generator) probe() {
 	client := &http.Client{}
 	req, err := http.NewRequest("POST", g.receiverAddr, bytes.NewBuffer(utils.RandStringBytes(g.size)))
 	req.Header.Set("Content-Type", "application/octet-stream")
-	req.Header.Set("Connection", "close")
 	req.Close = true
 	resp, err := client.Do(req)
 

@@ -10,8 +10,6 @@ import (
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	log "github.com/sirupsen/logrus"
 	"github.com/spf13/viper"
-	maasClient "stash.grupa.onet/go/go-maas.git/client"
-	maasConfig "stash.grupa.onet/go/go-maas.git/config"
 )
 
 var (
@@ -44,14 +42,6 @@ func main() {
 	addr := fmt.Sprintf("%s:%d", viper.GetString("host"), viper.GetInt("port"))
 	mode := viper.GetString("mode")
 
-	conf := maasConfig.MaasConfig{
-		BasePath: "Applications.monitoring.khttp",
-		Interval: 30,
-		Timeout:  10,
-	}
-	maas := maasClient.NewMaasClient(&conf)
-	maas.Start()
-
 	if mode == RECEIVER {
 		receiver.SetupReceiver(
 			addr,
@@ -75,7 +65,6 @@ func main() {
 			viper.GetString("node"),
 			interval,
 			viper.GetInt64("size"),
-			maas,
 		)
 		g.Start()
 	}

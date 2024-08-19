@@ -6,7 +6,6 @@ require (
 	github.com/prometheus/client_golang v1.19.1
 	github.com/sirupsen/logrus v1.9.3
 	github.com/spf13/viper v1.19.0
-	stash.grupa.onet/go/go-maas.git v0.0.10
 )
 
 require (

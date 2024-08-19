@@ -93,5 +93,3 @@ gopkg.in/ini.v1 v1.67.0/go.mod h1:pNLf8WUiyNEtQjuu5G5vTm06TEv9tsIgeAvK8hOrP4k=
 gopkg.in/yaml.v3 v3.0.0-20200313102051-9f266ea9e77c/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
 gopkg.in/yaml.v3 v3.0.1 h1:fxVm/GzAzEWqLHuvctI91KS9hhNmmWOoWu0XTYJS7CA=
 gopkg.in/yaml.v3 v3.0.1/go.mod h1:K4uyk7z7BCEPqu6E+C64Yfv1cQ7kz7rIZviUmN+EgEM=
-stash.grupa.onet/go/go-maas.git v0.0.10 h1:xGn06KcCH/57bDTDziANwFP9N3fdUwP+enNAr2PlTOw=
-stash.grupa.onet/go/go-maas.git v0.0.10/go.mod h1:PcsIanJigE3t6R6u1zwI28FF99uaX0LISeHZv2dKL6w=

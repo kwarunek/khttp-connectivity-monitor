@@ -33,7 +33,7 @@ clean:  # Clean
 version:  # Print a sniffed version
 	@echo ${VERSION}
 
-release: clean fmt release image
+release: clean fmt build image
 
 image:
 	sudo docker build --network host -t kwarunek/khttp-connectivity-monitor:${VERSION} .

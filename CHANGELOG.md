@@ -10,6 +10,11 @@ Versioning  X.Y.Z:
  Z - bugfixes, small improvments
 
 
+## [0.1.0] - 2024-08-19
+### Added
+- close connection
+- specify request size
+
 ## [0.0.1] - 2024-07-09
 ### Added
 - initialize

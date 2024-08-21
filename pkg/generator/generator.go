@@ -27,11 +27,11 @@ type Generator struct {
 	region          string
 	zone            string
 	node            string
-	size            int64
 	requestsTotal   prometheus.Counter
 	requestDuration *prometheus.HistogramVec
 	maas            *maasClient.MaasClient
 	host            string
+	req_data        []byte
 }
 
 func (g *Generator) Start() {
@@ -51,7 +51,7 @@ func (g *Generator) probe() {
 
 	start := time.Now()
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", g.receiverAddr, bytes.NewBuffer(utils.RandStringBytes(g.size)))
+	req, err := http.NewRequest("POST", g.receiverAddr, bytes.NewBuffer(g.req_data))
 	if g.host != "" {
 		req.Host = g.host
 	}
@@ -115,7 +115,6 @@ func NewGenerator(receiverAddr string, testName string, clusterName string, regi
 		zone:         zone,
 		node:         node,
 		maas:         maas,
-		size:         size,
 		host:         host,
 		requestsTotal: promauto.NewCounter(prometheus.CounterOpts{
 			Name: "khcm_generator_requests_total",
@@ -128,5 +127,6 @@ func NewGenerator(receiverAddr string, testName string, clusterName string, regi
 		},
 			[]string{"test", "cluster", "g_region", "g_zone", "g_node", "r_region", "r_zone", "r_node", "status"},
 		),
+		req_data: utils.RandStringBytes(size),
 	}
 }

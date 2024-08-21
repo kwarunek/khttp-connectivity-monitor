@@ -27,10 +27,11 @@ type Generator struct {
 	region          string
 	zone            string
 	node            string
-	size            int64
 	requestsTotal   prometheus.Counter
 	requestDuration *prometheus.HistogramVec
 	maas            *maasClient.MaasClient
+	host            string
+	req_data        []byte
 }
 
 func (g *Generator) Start() {
@@ -50,7 +51,10 @@ func (g *Generator) probe() {
 
 	start := time.Now()
 	client := &http.Client{}
-	req, err := http.NewRequest("POST", g.receiverAddr, bytes.NewBuffer(utils.RandStringBytes(g.size)))
+	req, err := http.NewRequest("POST", g.receiverAddr, bytes.NewBuffer(g.req_data))
+	if g.host != "" {
+		req.Host = g.host
+	}
 	req.Header.Set("Content-Type", "application/octet-stream")
 	req.Close = true
 	resp, err := client.Do(req)
@@ -100,7 +104,7 @@ func (g *Generator) probe() {
 	g.requestDuration.With(labels).Observe(total.Seconds())
 }
 
-func NewGenerator(receiverAddr string, testName string, clusterName string, region string, zone string, node string, interval time.Duration, size int64, maas *maasClient.MaasClient) *Generator {
+func NewGenerator(receiverAddr string, testName string, clusterName string, region string, zone string, node string, interval time.Duration, size int64, maas *maasClient.MaasClient, host string) *Generator {
 	buckets := []float64{0.0005, 0.001, 0.005, 0.010, 0.020, 0.050, .1, .2, .75, 1, 2}
 	return &Generator{
 		receiverAddr: receiverAddr,
@@ -111,7 +115,7 @@ func NewGenerator(receiverAddr string, testName string, clusterName string, regi
 		zone:         zone,
 		node:         node,
 		maas:         maas,
-		size:         size,
+		host:         host,
 		requestsTotal: promauto.NewCounter(prometheus.CounterOpts{
 			Name: "khcm_generator_requests_total",
 			Help: "The total number of requests sent by the generator",
@@ -123,5 +127,6 @@ func NewGenerator(receiverAddr string, testName string, clusterName string, regi
 		},
 			[]string{"test", "cluster", "g_region", "g_zone", "g_node", "r_region", "r_zone", "r_node", "status"},
 		),
+		req_data: utils.RandStringBytes(size),
 	}
 }

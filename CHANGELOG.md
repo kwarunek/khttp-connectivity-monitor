@@ -9,6 +9,14 @@ Versioning  X.Y.Z:
  Y - non breaking features, notable bugfixes
  Z - bugfixes, small improvments
 
+## [0.1.0-dev2] - 2024-08-21
+### Added
+- add constant request data
+
+## [0.1.0-dev1] - 2024-08-19
+### Added
+- specify host to ovveride
+
 ## [0.1.0-dev] - 2024-08-19
 ### Added
 - connection close
